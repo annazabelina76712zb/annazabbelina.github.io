@@ -24,51 +24,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ===== ДАННЫЕ ДЛЯ ЗАПОЛНЕНИЯ =====
     const data = {
-        diplomas: [
-            '🥇 Диплом I степени за победу в областном конкурсе IT-проектов',
-            '🥈 Диплом II степени за разработку мобильного приложения "Эко-гид"',
-            '🥉 Диплом III степени в хакатоне "Цифровой прорыв"',
-            '🏅 Диплом за лучший командный проект на конференции "IT-start"'
-        ],
-        certificates: [
-            '📜 Сертификат об участии в международной олимпиаде по программированию',
-            '📜 Сертификат участника конференции "Информационные технологии в образовании"',
-            '📜 Сертификат о прохождении курса "Введение в искусственный интеллект"'
-        ],
+        // ⭐ КУРСОВЫЕ — БЕЗ ССЫЛОК (просто текст)
         courseworks: [
-            '📘 Курсовая работа: "Разработка базы данных для интернет-магазина"',
-            '📘 Курсовая работа: "Создание веб-приложения на React"',
-            '📘 Курсовая работа: "Разработка мобильного приложения на Kotlin"'
+            'Курсовая работа: Еще в разработке!'
         ],
+        // ⭐ ОТЧЁТЫ — ССЫЛКИ НА .DOCX
         practiceReports: [
-            '📄 Отчёт по учебной практике: "Изучение основ Python"',
-            '📄 Отчёт по производственной практике: "Разработка модуля учета товаров"',
-            '📄 Отчёт по производственной практике: "Внедрение СУБД PostgreSQL"'
+            { text: 'Отчёт по учебной практике', link: 'Отчет_уп_забелина.docx' },
+            { text: 'Дневник-отчет по учебной практике', link: 'pr_32_zabelina_dnevnik-otchet.docx' }
         ],
+        // ⭐ ПРОЕКТЫ — ССЫЛКИ НА GITHUB (СЮДА ПЕРЕНЁС!)
         research: [
-            '🔬 Исследовательская работа: "Сравнение эффективности языков программирования"',
-            '🔬 Проект: "Разработка системы рекомендаций для пользователей"',
-            '🔬 Исследование: "Применение машинного обучения в образовании"'
+            { text: 'Работа с XamarinForms', link: 'https://github.com/annazabelina76712zb/zd5_1zabelinaa' },
+            { text: 'Разработка приложения для Smart TV', link: 'https://github.com/annazabelina76712zb/zd3_2zabelinaAnna' }
+            
         ],
         certificatesDocs: [
-            '📜 Свидетельство об окончании курса "Инструменты искусственного интеллекта" (54 ак. часа) — ООО "Цифровое образование", 2025 г.'
+            'Свидетельство об окончании курса "Инструменты искусственного интеллекта" (54 ак. часа) — ООО "Цифровое образование", 2025 г.'
         ],
         gratitude: [
-            '📜 Благодарственное письмо от Министерства образования Свердловской области за активное участие в проекте "Амбассадоры Профессионалитета" (15.12.2023)'
+            'Благодарственное письмо от Министерства образования Свердловской области за активное участие в проекте "Амбассадоры Профессионалитета" (15.12.2023)'
         ],
         events: [
-            '🎯 Участие в городском субботнике',
-            '🎯 Организация студенческого IT-клуба',
-            '🎯 Участие в благотворительной акции "Помоги детям"',
-            '🎯 Выступление на научно-практической конференции'
+            'Скоро будут добавлены мероприятия!'
         ],
         characteristics: [
-            '📋 Характеристика с места производственной практики',
-            '📋 Характеристика от руководителя проекта "Амбассадоры Профессионалитета"'
+            'Характеристика с места производственной практики'
+            
         ]
     };
 
-    // ===== ФУНКЦИЯ ЗАПОЛНЕНИЯ СПИСКОВ =====
+    // ===== ФУНКЦИЯ ДЛЯ ОБЫЧНЫХ СПИСКОВ (БЕЗ ССЫЛОК) =====
     function fillList(elementId, items) {
         const list = document.getElementById(elementId);
         if (!list) return;
@@ -80,11 +66,44 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    fillList('diplomas-list', data.diplomas);
-    fillList('certificates-list', data.certificates);
+    // ===== ФУНКЦИЯ ДЛЯ СПИСКОВ СО ССЫЛКАМИ =====
+    function fillListWithLinks(elementId, items) {
+        const list = document.getElementById(elementId);
+        if (!list) return;
+        list.innerHTML = '';
+        items.forEach(item => {
+            const li = document.createElement('li');
+            if (item.link && item.link !== '#') {
+                const a = document.createElement('a');
+                a.href = item.link;
+                a.target = '_blank';
+                a.textContent = item.text;
+                a.style.color = '#6c5ce7';
+                a.style.textDecoration = 'none';
+                a.style.transition = 'color 0.3s ease';
+                a.onmouseover = function() { this.style.color = '#f9ca24'; };
+                a.onmouseout = function() { this.style.color = '#6c5ce7'; };
+                li.appendChild(a);
+            } else {
+                li.textContent = item.text || item;
+                li.style.color = '#999';
+                li.style.fontStyle = 'italic';
+            }
+            list.appendChild(li);
+        });
+    }
+
+    // ===== ЗАПОЛНЯЕМ =====
+    // Курсовые — без ссылок
     fillList('courseworks-list', data.courseworks);
-    fillList('practice-reports-list', data.practiceReports);
-    fillList('research-list', data.research);
+    
+    // Отчёты — ссылки на .docx
+    fillListWithLinks('practice-reports-list', data.practiceReports);
+    
+    // Проекты — ссылки на GitHub (СЮДА ПЕРЕНЕСЛИ!)
+    fillListWithLinks('research-list', data.research);
+
+    // Обычные списки
     fillList('certificates-docs-list', data.certificatesDocs);
     fillList('gratitude-list', data.gratitude);
     fillList('events-list', data.events);
@@ -92,14 +111,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ===== КАРТИНКИ-ЗАГЛУШКИ ДЛЯ ДОСТИЖЕНИЙ =====
     const diplomaImages = [
-        { src: 'diplom1.jpg', caption: 'Диплом I степени — областный конкурс IT-проектов', link: '#' },
-        { src: 'diplom2.jpg', caption: 'Диплом II степени — мобильное приложение "Эко-гид"', link: '#' },
-        { src: 'diplom3.jpg', caption: 'Диплом III степени — хакатон "Цифровой прорыв"', link: '#' }
+        { src: 'diplom1.jpg', caption: 'Диплом I ', link: '#' },
+        { src: 'diplom2.jpg', caption: 'Диплом II ', link: '#' },
+        { src: 'diplom3.jpg', caption: 'Диплом III ', link: '#' }
     ];
 
     const certificateImages = [
-        { src: 'cert1.jpg', caption: 'Сертификат — международная олимпиада по программированию', link: '#' },
-        { src: 'cert2.jpg', caption: 'Сертификат — конференция "Информационные технологии"', link: '#' }
+        { src: 'cert1.jpg', caption: 'Сертификат ', link: '#' },
+        { src: 'cert2.jpg', caption: 'Сертификат ', link: '#' }
     ];
 
     function renderDocImages(containerId, items) {
